@@ -5,7 +5,6 @@ import es.jorgepadilla.springkotlindddsample.artist.domain.Artist
 import es.jorgepadilla.springkotlindddsample.artist.domain.ArtistName
 import es.jorgepadilla.springkotlindddsample.artist.domain.ArtistRepository
 import es.jorgepadilla.springkotlindddsample.artist.domain.DateOfBirth
-import es.jorgepadilla.springkotlindddsample.artist.infrastructure.web.v1.transfer.response.ArtistResponse
 import es.jorgepadilla.springkotlindddsample.shared.application.Command
 import es.jorgepadilla.springkotlindddsample.shared.application.CommandHandler
 import org.springframework.stereotype.Service
@@ -22,14 +21,7 @@ class CreateArtistCommandHandler(
                 ArtistName(command.name),
                 DateOfBirth.ofDate(command.dateOfBirth)
         )
-        return artistRepository.save(artist)
-                .let {
-                    ArtistResponse(
-                            id = it.id.id,
-                            name = it.name.name,
-                            dateOfBirth = it.dateOfBirth.date
-                    )
-                }
+        artistRepository.save(artist)
     }
 
     override fun getType(): KClass<out Command> {
